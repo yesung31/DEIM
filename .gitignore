@@ -140,3 +140,5 @@ dmypy.json
 dataset
 deim_outputs
 outputs
+
+.DS_Store
