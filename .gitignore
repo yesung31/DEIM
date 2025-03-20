@@ -144,5 +144,6 @@ outputs
 *.png
 *.tiff
 *.jpg
+*.mp4
 
 *events.out.tfevents*
