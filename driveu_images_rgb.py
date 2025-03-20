@@ -19,11 +19,17 @@ def process_image(image, split, data_path):
         # Create RGB PNG image
         output_path = os.path.join(f"./dataset/images/{split}", os.path.basename(old_path))
         output_path = os.path.normpath(output_path)
+        output_path = os.path.splitext(output_path)[0] + ".png"
 
         # Assuming convert_tiff_to_png is defined elsewhere
         convert_tiff_to_png(new_path, output_path)
 
 def make_png_dataset(file_path, split):
+    dataset_dir = './dataset/images'
+    os.makedirs(os.path.join(dataset_dir, 'train'), exist_ok=True)
+    os.makedirs(os.path.join(dataset_dir, 'test'), exist_ok=True)
+    os.makedirs(os.path.join(dataset_dir, 'val'), exist_ok=True)
+
     with open(file_path, "r") as file:
         data = json.load(file)
         if "images" in data and isinstance(data["images"], list):
