@@ -137,8 +137,12 @@ dmypy.json
 *.html
 .DS_Store
 
-dataset
+.dataset
 deim_outputs
 outputs
 
-.DS_Store
+*.png
+*.tiff
+*.jpg
+
+*events.out.tfevents*
