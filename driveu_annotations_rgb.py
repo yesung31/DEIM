@@ -5,6 +5,8 @@ from pathlib import Path
 
 
 def convert_to_coco(input_file, output_dir):
+    os.makedirs("./dataset/annotations", exist_ok=True)
+
     with open(input_file, "r") as f:
         data = json.load(f)
 
@@ -34,7 +36,7 @@ def convert_to_coco(input_file, output_dir):
 
     for image_id, image_data in enumerate(data["images"]):
         image_path = image_data["image_path"]
-        image_filename = os.path.basename(image_path)
+        image_filename = os.path.splitext(os.path.basename(image_path))[0] + '.png'
         set_name = None
 
         for s in sets:
