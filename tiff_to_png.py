@@ -9,43 +9,10 @@ def convert_tiff_to_png(input_path, output_path):
         height, width = raw.shape
         rgb = np.zeros((height // 2, width // 2, 3), dtype=np.uint8)
 
-        # GRBG Bayer pattern with bilinear interpolation
-        # Create full-size arrays for each color
-        red = np.zeros((height, width), dtype=np.float32)
-        green = np.zeros((height, width), dtype=np.float32)
-        blue = np.zeros((height, width), dtype=np.float32)
-
-        # Fill known values
-        red[0::2, 1::2] = raw[0::2, 1::2]  # R locations
-        green[0::2, 0::2] = raw[0::2, 0::2]  # G locations (top)
-        green[1::2, 1::2] = raw[1::2, 1::2]  # G locations (bottom)
-        blue[1::2, 0::2] = raw[1::2, 0::2]  # B locations
-
-        # Interpolate red
-        red[1:-2:2, 1::2] = (red[0::2, 1::2][:-1, :] + red[2::2, 1::2]) / 2  # vertical
-        red[::, 0:-2:2] = (
-            red[::, 1::2][:, :-1] + red[::, 1::2][:, 1:]
-        ) / 2  # horizontal
-
-        # Interpolate blue
-        blue[0:-2:2, 0::2] = (
-            blue[1::2, 0::2][:-1, :] + blue[1::2, 0::2][1:, :]
-        ) / 2  # vertical
-        blue[::, 1:-2:2] = (
-            blue[::, 0::2][:, :-1] + blue[::, 0::2][:, 1:]
-        ) / 2  # horizontal
-
-        # Interpolate green
-        green[1:-2:2, 0::2] = (
-            green[0::2, 0::2][:-1, :] + green[2::2, 0::2]
-        ) / 2  # vertical
-        green[0::2, 1:-2:2] = (
-            green[0::2, 0::2][:, :-1] + green[0::2, 0::2][:, 1:]
-        ) / 2  # horizontal
-
-        # Combine channels and normalize
-        rgb = np.stack((red, green, blue), axis=-1) / 4095 * 255
-        rgb = rgb.astype(np.uint8)
+        # Using GRBG Bayer pattern
+        rgb[:, :, 0] = raw[0::2, 1::2] / 4095 * 255  # Red
+        rgb[:, :, 1] = (raw[0::2, 0::2] + raw[1::2, 1::2]) / 2 / 4095 * 255  # Green
+        rgb[:, :, 2] = raw[1::2, 0::2] / 4095 * 255  # Blue
 
         img = Image.fromarray(rgb)
         img.save(output_path, "PNG")
