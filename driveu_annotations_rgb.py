@@ -91,6 +91,6 @@ def convert_to_coco(input_file, output_dir):
 if __name__ == "__main__":
     # Usage example
     convert_to_coco(
-        "/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_all.json",
+        "/Users/yesung/Datasets/DriveU/v2.0/DTLD_all.json",
         "./dataset/annotations",
     )

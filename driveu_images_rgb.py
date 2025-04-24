@@ -36,7 +36,7 @@ def make_png_dataset(file_path, split):
         data = json.load(file)
         if "images" in data and isinstance(data["images"], list):
             # Prepare for parallel execution
-            data_path = "/home/guest/Datasets/DriveU"
+            data_path = "/Users/yesung/Datasets/DriveU"
             with ThreadPoolExecutor() as executor:
                 # Map each image to the process_image function for parallel processing
                 list(
@@ -72,11 +72,11 @@ def move_validation_images(split, percentage):
 
 if __name__ == "__main__":
     split = "train"
-    file_path = f"/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_{split}.json"
+    file_path = f"/Users/yesung/Datasets/DriveU/v2.0/DTLD_{split}.json"
     make_png_dataset(file_path, split)
 
     split = "test"
-    file_path = f"/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_{split}.json"
+    file_path = f"/Users/yesung/Datasets/DriveU/v2.0/DTLD_{split}.json"
     make_png_dataset(file_path, split)
 
     move_validation_images("train", 5.0)
