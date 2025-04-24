@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-def tiff_to_video(input_root, output_root, fps=15, bayer_to_rgb=False):
+def tiff_to_video(input_root, output_root, fps=1.5, bayer_to_rgb=False):
     """
     Convert 16-bit TIFF images (with 12-bit data) to 8-bit and create MP4 videos.
     Optionally, convert Bayer GRBG images to RGB.
