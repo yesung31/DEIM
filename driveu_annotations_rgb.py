@@ -36,7 +36,7 @@ def convert_to_coco(input_file, output_dir):
 
     for image_id, image_data in enumerate(data["images"]):
         image_path = image_data["image_path"]
-        image_filename = os.path.splitext(os.path.basename(image_path))[0] + '.png'
+        image_filename = os.path.splitext(os.path.basename(image_path))[0] + ".png"
         set_name = None
 
         for s in sets:
@@ -91,5 +91,6 @@ def convert_to_coco(input_file, output_dir):
 if __name__ == "__main__":
     # Usage example
     convert_to_coco(
-        "/home/mne/Datasets/DriveU/v2.0/DTLD_all.json", "./dataset/annotations"
+        "/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_all.json",
+        "./dataset/annotations",
     )

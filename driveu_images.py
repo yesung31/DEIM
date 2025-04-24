@@ -11,7 +11,7 @@ def make_simlinks(file_path, split):
             for image in data["images"]:
                 if "image_path" in image:
                     old_path = image["image_path"]
-                    new_path = os.path.join("/home/mne/Datasets/DriveU", old_path)
+                    new_path = os.path.join("/home/guest/Datasets/DriveU", old_path)
                     new_path = os.path.normpath(new_path)
 
                     # Create symlink
@@ -45,11 +45,11 @@ def move_validation_images(split, percentage):
 
 if __name__ == "__main__":
     split = "train"
-    file_path = f"/home/mne/Datasets/DriveU/v2.0/DTLD_{split}.json"
+    file_path = f"/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_{split}.json"
     make_simlinks(file_path, split)
 
     split = "test"
-    file_path = f"/home/mne/Datasets/DriveU/v2.0/DTLD_{split}.json"
+    file_path = f"/home/guest/Datasets/DriveU/DTLD_Labels_v2.0/v2.0/DTLD_{split}.json"
     make_simlinks(file_path, split)
 
     move_validation_images("train", 5.0)
