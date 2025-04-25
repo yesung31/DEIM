@@ -19,6 +19,8 @@ def convert_tiff_to_png(input_path, output_path):
             img.save(output_path, "PNG")
     except FileNotFoundError:
         print(f"Failed to load: {input_path}")
+    except Exception as e:
+        print(f"Error processing {input_path}: {e}")
 
 
 if __name__ == "__main__":
