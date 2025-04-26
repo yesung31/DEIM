@@ -5,7 +5,7 @@ __include__: [
   "../base/dinov2.yml",
 ]
 
-output_dir: ./outputs/deim_dinov2_s_driveu
+output_dir: ./outputs/deim_dinov2_s_driveu_freeze
   
 optimizer:
   type: AdamW
