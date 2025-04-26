@@ -86,7 +86,5 @@ def process_image(image, bayer_to_rgb):
 
 
 # Example usage:
-# tiff_to_video("/Users/yesung/Datasets/DriveU", "./dataset/videos/raw")
-tiff_to_video(
-    "/Users/yesung/Datasets/DriveU", "./dataset/videos/rgb", bayer_to_rgb=True
-)
+# tiff_to_video("/home/guest/Datasets/DriveU", "./dataset/videos/raw")
+tiff_to_video("/home/guest/Datasets/DriveU", "./dataset/videos/rgb", bayer_to_rgb=True)

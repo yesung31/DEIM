@@ -11,7 +11,7 @@ def make_simlinks(file_path, split):
             for image in data["images"]:
                 if "image_path" in image:
                     old_path = image["image_path"]
-                    new_path = os.path.join("/Users/yesung/Datasets/DriveU", old_path)
+                    new_path = os.path.join("/home/guest/Datasets/DriveU", old_path)
                     new_path = os.path.normpath(new_path)
 
                     # Create symlink
