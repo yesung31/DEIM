@@ -14,7 +14,7 @@ class DINOv2(nn.Module):
         self,
         name,
         use_lab=False,
-        return_idx=[1, 2, 3],
+        return_idx=[-3, -2, -1],
         freeze_stem_only=True,
         freeze_at=0,
         freeze_norm=True,
@@ -64,8 +64,8 @@ class DINOv2(nn.Module):
         if freeze_at >= 0:
             self._freeze_parameters(self.network.patch_embed)
             if not freeze_stem_only:
-                for i in range(min(freeze_at + 1, len(self.blocks))):
-                    self._freeze_parameters(self.blocks[i])
+                for i in range(min(freeze_at + 1, len(self.network.blocks))):
+                    self._freeze_parameters(self.network.blocks[i])
 
         if freeze_norm:
             self._freeze_norm(self.network)
