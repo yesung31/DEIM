@@ -11,15 +11,18 @@ optimizer:
   params: 
     - 
       params: '^(?=.*backbone)(?!.*norm|bn).*$'
-      lr: 0.000005   
+      lr: 0.00000125  # Adjusted for smaller batch size
     - 
       params: '^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$'
       weight_decay: 0.
 
-  lr: 0.0005
+  lr: 0.000125  # Adjusted for smaller batch size
   betas: [0.9, 0.999]
   weight_decay: 0.000125
-  
+
+val_dataloader:
+  total_batch_size: 8
+
 # Increase to search for the optimal ema
 epoches: 174 # 72 + 2n  # Adjusted for DriveU dataset size(41k) vs COCO (118k)
 
@@ -28,7 +31,7 @@ flat_epoch: 87    # 4 + epoch // 2, e.g., 40 = 4 + 72 / 2  # Adjusted for DriveU
 no_aug_epoch: 24  # Adjusted for DriveU dataset size(41k) vs COCO (118k)
 
 train_dataloader: 
-  total_batch_size: 28
+  total_batch_size: 8
   dataset: 
     transforms:
       policy:

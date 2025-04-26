@@ -43,6 +43,7 @@ flat_epoch: 87    # 4 + epoch // 2, e.g., 40 = 4 + 72 / 2  # Adjusted for DriveU
 no_aug_epoch: 24  # Adjusted for DriveU dataset size(41k) vs COCO (118k)
 
 train_dataloader: 
+  total_batch_size: 28
   dataset: 
     transforms:
       policy:
