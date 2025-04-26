@@ -20,3 +20,4 @@ from ._transforms import (
 )
 from .container import Compose
 from .mosaic import Mosaic
+from .pad4vit import Pad4ViT

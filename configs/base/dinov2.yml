@@ -7,6 +7,14 @@ DINOv2:
   pretrained: True
   local_model_dir: dinov2/
 
+HybridEncoder:
+  in_channels: [384, 384, 384]
+  feat_strides: [7, 14, 28]
+
+DFINETransformer:
+  feat_channels: [256, 256, 256]
+  feat_strides: [7, 14, 28]
+
 train_dataloader: 
   dataset: 
     transforms:
@@ -24,3 +32,4 @@ train_dataloader:
         - {type: ConvertBoxes, fmt: 'cxcywh', normalize: True}
   collate_fn:
     base_size: 644
+    scale_size: 28

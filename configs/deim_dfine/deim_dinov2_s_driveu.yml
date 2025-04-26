@@ -30,6 +30,11 @@ DINOv2:
   freeze_norm: True
   # freeze_at: -1         # 0 default
   # freeze_norm: False    # True default
+
+DFINETransformer:
+  feat_channels: [384, 384, 384]
+  reg_scale: 8
+
 # Increase to search for the optimal ema
 epoches: 174 # 72 + 2n  # Adjusted for DriveU dataset size(41k) vs COCO (118k)
 

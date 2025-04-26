@@ -24,6 +24,7 @@ class DINOv2(nn.Module):
         super().__init__()
         self.use_lab = use_lab
         self.return_idx = return_idx
+        assert len(self.return_idx) == 3
 
         name = name.lower()
         name = f"dinov2_vit{name}14_reg"
@@ -46,6 +47,12 @@ class DINOv2(nn.Module):
             raise NotImplementedError(
                 "DINOv2 IS a pretrained model, please set pretrained=True"
             )
+
+        embed_dim = self.network.patch_embed.proj.out_channels
+        self.up_conv = nn.ConvTranspose2d(
+            embed_dim, embed_dim, kernel_size=2, stride=2, dilation=1
+        )
+        self.down_conv = nn.Conv2d(embed_dim, embed_dim, kernel_size=2, stride=2)
 
         self.return_idx = sorted(
             [
@@ -76,6 +83,17 @@ class DINOv2(nn.Module):
             p.requires_grad = False
 
     def forward(self, x):
+        b, c, h, w = x.shape
+        # pad_h = (14 - h % 14) % 14
+        # pad_w = (14 - w % 14) % 14
+        # if pad_h > 0 or pad_w > 0:
+        #     # Distribute the padding equally across all sides
+        #     pad_top = pad_h // 2
+        #     pad_bottom = pad_h - pad_top
+        #     pad_left = pad_w // 2
+        #     pad_right = pad_w - pad_left
+        #     x = nn.functional.pad(x, (pad_left, pad_right, pad_top, pad_bottom))
+
         x = self.network.patch_embed(x)
         outs = []
         for idx, block in enumerate(self.network.blocks):
@@ -84,5 +102,15 @@ class DINOv2(nn.Module):
                 x = self.network.norm(x)
                 x = self.network.head(x)
             if idx in self.return_idx:
-                outs.append(x)
+                if idx == self.return_idx[0]:
+                    feat = x.transpose(1, 2).reshape(b, -1, h // 14, w // 14)
+                    feat = self.up_conv(feat)
+                    outs.append(feat)
+                elif idx == self.return_idx[1]:
+                    feat = x.transpose(1, 2).reshape(b, -1, h // 14, w // 14)
+                    outs.append(feat)
+                else:  # idx == self.return_idx[2]
+                    feat = x.transpose(1, 2).reshape(b, -1, h // 14, w // 14)
+                    feat = self.down_conv(feat)
+                    outs.append(feat)
         return outs
