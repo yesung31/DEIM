@@ -17,6 +17,7 @@ class Pad4ViT(T.Transform):
         self.pad_value = pad_value
 
     def forward(self, sample):
+        raise NotImplementedError("Target coordinate change is not implemented.")
         # Get the size of the image: (H, W)
         image, target, dataset = sample
         if isinstance(image, Image.Image):
