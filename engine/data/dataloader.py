@@ -84,19 +84,25 @@ class BaseCollateFunction(object):
 
 
 def generate_scales(base_size, base_size_repeat, scale_size):
-    scale_repeat = (
-        base_size - int(base_size * 0.75 / scale_size) * scale_size
-    ) // scale_size
-    scales = [
-        int(base_size * 0.75 / scale_size) * scale_size + i * scale_size
-        for i in range(scale_repeat)
-    ]
-    scales += [base_size] * base_size_repeat
-    scales += [
-        int(base_size * 1.25 / scale_size) * scale_size - i * scale_size
-        for i in range(scale_repeat)
-    ]
-    return scales
+    if isinstance(base_size, int):
+        scale_repeat = (
+            base_size - int(base_size * 0.75 / scale_size) * scale_size
+        ) // scale_size
+        scales = [
+            int(base_size * 0.75 / scale_size) * scale_size + i * scale_size
+            for i in range(scale_repeat)
+        ]
+        scales += [base_size] * base_size_repeat
+        scales += [
+            int(base_size * 1.25 / scale_size) * scale_size - i * scale_size
+            for i in range(scale_repeat)
+        ]
+        return scales
+    else:
+        scales = []
+        for _base_size in base_size:
+            scales.append(generate_scales(_base_size, base_size_repeat, scale_size))
+        return [list(items) for items in zip(*scales)]
 
 
 @register()

@@ -1,19 +1,4 @@
-DEIM:
-  backbone: DINOv2
-
-DINOv2:
-  pretrained: True
-  local_model_dir: dinov2/
-
-HybridEncoder:
-  in_channels: [384, 384, 384]
-  feat_strides: [7, 14, 28]
-
-DFINETransformer:
-  feat_channels: [256, 256, 256]
-  feat_strides: [7, 14, 28]
-
-eval_spatial_size: [644, 644] # h w  # Fit to patch size 14
+eval_spatial_size: [224, 896] # h w  # Fit to patch size 14
 
 train_dataloader: 
   dataset: 
@@ -26,17 +11,19 @@ train_dataloader:
         - {type: RandomIoUCrop, p: 0.8}
         - {type: SanitizeBoundingBoxes, min_size: 1}
         - {type: RandomHorizontalFlip}
-        - {type: Resize, size: [644, 644], }  # Fit to patch size 14
+        - {type: TopCrop}
+        - {type: Resize, size: [224, 896], }  # Fit to patch size 14
         - {type: SanitizeBoundingBoxes, min_size: 1}
         - {type: ConvertPILImage, dtype: 'float32', scale: True}
         - {type: ConvertBoxes, fmt: 'cxcywh', normalize: True}
   collate_fn:
-    base_size: 644
+    base_size: [224, 896]
     scale_size: 28
 
 val_dataloader:
   dataset:
     transforms:
       ops:
-        - {type: Resize, size: [644, 644], }
+        - {type: TopCrop}
+        - {type: Resize, size: [224, 896],}
         - {type: ConvertPILImage, dtype: 'float32', scale: True}
